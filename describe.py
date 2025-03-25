@@ -39,6 +39,12 @@ def getMax(data, data_name):
     return max
 
 
+def getPercent(data, data_name, percent):
+    sorted_data = data.sort_values(by=data_name, ignore_index=True)
+    index = int(len(sorted_data) * percent / 100)
+    return sorted_data.iloc[index][data_name] 
+
+
 def printCount(data):
     print("\nCount        ", end="")
     for i, name in enumerate(data):
@@ -83,12 +89,6 @@ def printMax(data):
         print(f"{max: >15}", end=" | ")
 
 
-def getPercent(data, data_name, percent):
-    sorted_data = data.sort_values(by=data_name, ignore_index=True)
-    index = int(len(sorted_data) * percent / 100)
-    return sorted_data.iloc[index][data_name] 
-
-
 def print25(data):
     print("\n25%          ", end="")
     for i, name in enumerate(data):
@@ -116,8 +116,9 @@ def print75(data):
         print(f"{percent75: >15}", end=" | ")
 
 
-def display(data):
+def describe(data):
     data = data.fillna(0)
+    data = data.select_dtypes(include=['number'])
     print("             ", end="")
     for i, name in enumerate(data):
         if i >= 5:
@@ -140,7 +141,7 @@ def main():
         parser.add_argument('dataset', help='Required dataset to analyse')
         args = parser.parse_args()
         data = getData(args.dataset)
-        display(data.select_dtypes(include=['int64', 'float64']))
+        describe(data)
 
     except Exception as e:
         print(e)
