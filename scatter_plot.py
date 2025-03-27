@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 from get_data import getData
 
 
